@@ -17,6 +17,7 @@ import (
 	"os"
 )
 
+// Инициализация переменных окружения из файла .env в корневой директории проекта при запуске приложения
 func init() {
 	err := godotenv.Load()
 	if err != nil {
@@ -47,9 +48,11 @@ func main() {
 		resultLabel.SetText("Температура в городе " + inputEntry.Text + ": " + message)
 	})
 
+	// Создаем контейнер и добавляем виджеты в контейнер в порядке отображения снизу вверх
 	content := container.NewVBox(
 		inputEntry,
 		submitButton,
+		// Добавляем пробелы слева и справа от результата для центрирования
 		container.NewHBox(layout.NewSpacer(), resultLabel, layout.NewSpacer()),
 	)
 
@@ -98,6 +101,7 @@ func getTemperature(city string) (string, error) {
 		return "", fmt.Errorf("OpenWeatherMap API key not found")
 	}
 
+	// Формирование URL запроса к OpenWeatherMap API
 	url := fmt.Sprintf("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric", city, apiKey)
 
 	resp, err := http.Get(url)
